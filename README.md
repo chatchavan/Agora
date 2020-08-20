@@ -52,5 +52,6 @@ Move the code to the trash column
 
 ## TODO
 
+* change agora output to a formatted spreadsheet with column widths and wrapping settings
 * create a script to automatically update the code book based on the downloaded agora Excel
 * anonymize parameters (currently has our names in it)
