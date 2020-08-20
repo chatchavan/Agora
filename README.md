@@ -1,4 +1,4 @@
-# Generate a consolidated code spread sheet for discussion
+# Agora: Facilitating the discussion of qualitative coding with multiple coders
 
 
 ## How to use the output durnig the discussion
