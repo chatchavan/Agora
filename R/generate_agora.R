@@ -2,9 +2,9 @@
 
 library(tidyverse)
 
-path_agreed <- "../../02 Transcripts/Chat/glass-codebook/codebook-agreed.txt"
-path_coder1 <- "../../02 Transcripts/Chat/glass-codebook/codebook-CW.txt"
-path_coder2 <- "../../02 Transcripts/Chat/glass-codebook/codebook-IA.txt"
+path_agreed <- "../../04 Transcripts/Chat/glass-codebook/codebook-agreed.txt"
+path_coder1 <- "../../04 Transcripts/Chat/glass-codebook/codebook-CW.txt"
+path_coder2 <- "../../04 Transcripts/Chat/glass-codebook/codebook-IA.txt"
 coder1_name <- "Chat"
 coder2_name <- "Nacho"
 
