@@ -53,5 +53,12 @@ Move the code to the trash column
 ## TODO
 
 * change agora output to a formatted spreadsheet with column widths and wrapping settings
+   * freeze pane on the first row
+   * adjust the column widths (small trash columns)
+   * make text justification (trash column should be cut-off)
+   * remove line_no column
 * create a script to automatically update the code book based on the downloaded agora Excel
+* create a script to read transcript files and generate code book. It should also separate agreed codebooks from user-defined codebook.
+
+Low priority:
 * anonymize parameters (currently has our names in it)
