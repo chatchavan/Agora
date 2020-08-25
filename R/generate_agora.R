@@ -7,6 +7,7 @@ path_coder1 <- "../../04 Transcripts/Chat/glass-codebook/codebook-CW.txt"
 path_coder2 <- "../../04 Transcripts/Chat/glass-codebook/codebook-IA.txt"
 coder1_name <- "Chat"
 coder2_name <- "Nacho"
+path_output <- "../../04 Transcripts/Agoras/agora.csv"
 
 read_codes <- function(a_path, coder_name) {
  tibble(code = read_lines(a_path)) %>% 
@@ -27,5 +28,5 @@ bind_rows(
     "{{coder2_name}}" := if_else(coder == coder2_name, code, ""),
     "{{coder2_name}}'s trash" := "") %>% 
   select(-code, -coder) %>% 
-  write_excel_csv("output/agora.csv")
+  write_excel_csv(path_output)
 
