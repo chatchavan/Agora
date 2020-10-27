@@ -11,8 +11,8 @@ data_root_paths <- c(
 # retrieve all data files
 
 ## TEMP variables for debugging
-root_path <- data_roots[1]
-coder_name <- names(data_roots)[1]
+root_path <- data_root_paths[1]
+coder_name <- names(data_root_paths)[1]
 a_path <- "../../04 Transcripts/Chat//TM/TM.xlsx"
 a_coder <- "C"
 
