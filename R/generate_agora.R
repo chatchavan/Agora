@@ -9,16 +9,21 @@ coder1_name <- "Chat"
 coder2_name <- "Nacho"
 path_output <- "../../04 Transcripts/Agoras/agora.csv"
 
-read_codes <- function(a_path, coder_name) {
- tibble(code = read_lines(a_path)) %>% 
-    mutate(
-      coder = coder_name)
-}
+
+# remove agreed codes from own file's code
+agreed_codes <- read_lines(path_agreed)
+coder1_codes <- 
+  read_lines(path_coder1) %>% 
+  setdiff(agreed_codes)
+coder2_codes <- 
+  read_lines(path_coder1) %>% 
+  setdiff(agreed_codes)
+
 
 bind_rows(
-  read_codes(path_coder1, coder1_name),
-  read_codes(path_coder2, coder2_name),
-  read_codes(path_agreed, "Agreed")) %>% 
+  tibble(code = coder1_codes, coder = coder1_name),
+  tibble(code = coder2_codes, coder = coder2_name),
+  tibble(code = agreed_codes, coder = "Agreed")) %>% 
   arrange(code) %>% 
   mutate(line_no = 1:n()) %>% 
   mutate(
