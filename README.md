@@ -49,6 +49,11 @@ Move the code to the trash column
 
 * To update the coded data, go through the trash column in the agora file and make corresponding changes
 
+## Utilities for individual coders
+
+* `coding_merge.R` merges the agreed codes and indiviudal's codes into one file for convenience in code lookup.
+* `coding_split.R` extracts individual's code from the merged file (for git commit)
+
 
 ## TODO
 * create a script to help discussion → extract an excerpt at a given timestamp (quote and codes from each person) to be able to paste in the Google Doc.
