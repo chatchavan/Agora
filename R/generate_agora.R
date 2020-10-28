@@ -7,7 +7,7 @@ path_coder1 <- "../../04 Transcripts/Chat/glass-codebook/codebook-CW.txt"
 path_coder2 <- "../../04 Transcripts/Chat/glass-codebook/codebook-IA.txt"
 coder1_name <- "Chat"
 coder2_name <- "Nacho"
-path_output <- "../../04 Transcripts/Agoras/agora.csv"
+path_output <- "output/agora.csv"
 
 
 # remove agreed codes from own file's code
@@ -35,3 +35,4 @@ bind_rows(
   select(-code, -coder) %>% 
   write_excel_csv(path_output)
 
+system2("open", paste0("\"", dirname(normalizePath(path_output)), "\""))
