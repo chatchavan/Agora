@@ -31,11 +31,11 @@ codes_df <-
 # create CSV and show output path
 codes_df %>% 
   mutate(
-    "{{coder1_name}}'s trash" := "",
-    "{{coder1_name}}" := if_else(coder == coder1_name, code, ""),
+    "{coder1_name}'s trash" := "",
+    "{coder1_name}" := if_else(coder == coder1_name, code, ""),
     "agreed" = if_else(coder == "Agreed", code, ""),
-    "{{coder2_name}}" := if_else(coder == coder2_name, code, ""),
-    "{{coder2_name}}'s trash" := "") %>% 
+    "{coder2_name}" := if_else(coder == coder2_name, code, ""),
+    "{coder2_name}'s trash" := "") %>% 
   select(-code, -coder) %>% 
   write_excel_csv(path_output)
 
