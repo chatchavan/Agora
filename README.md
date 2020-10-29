@@ -47,6 +47,8 @@ Move the code to the trash column
 
 * To update code books (agreed or individual's), copy the a column from agora file into a blank text file in Sublime Text. Remove the header column. Sort lines. This content is the new code book. 
 
+   * This step is taken care of by `agora_to_codebook.R`.
+
 * To update the coded data, go through the trash column in the agora file and make corresponding changes
 
 ## Utilities for individual coders
