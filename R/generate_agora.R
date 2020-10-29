@@ -16,7 +16,7 @@ coder1_codes <-
   read_lines(path_coder1) %>% 
   setdiff(agreed_codes)
 coder2_codes <- 
-  read_lines(path_coder1) %>% 
+  read_lines(path_coder2) %>% 
   setdiff(agreed_codes)
 
 # merge codes
