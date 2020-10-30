@@ -31,4 +31,4 @@ extract_and_save("agreed", path_agreed)
 
 
 # show the code files
-system2("open", paste0("\"", dirname(normalizePath(path_agreed)), "\""))
+system2("stree", paste0("\"", dirname(normalizePath(path_agreed)), "\""))
