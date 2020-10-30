@@ -13,5 +13,7 @@ own_codes <- setdiff(merged_codes, agreed_codes)
 
 # write output
 own_codes %>% 
+  str_trim() %>% 
+  str_sort() %>% 
   paste(collapse = "\n") %>% 
   write_file(path_own)
