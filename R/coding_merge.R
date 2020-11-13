@@ -29,3 +29,7 @@ codes_df %>%
   pull(code) %>% 
   paste(collapse = "\n") %>% 
   write_file(path_output)
+
+
+# show the merged
+system2("subl", paste0("\"", normalizePath(path_output), "\""))
