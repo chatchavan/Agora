@@ -55,7 +55,7 @@ Move the code to the trash column
 
 * `coding_merge.R` merges the agreed codes and indiviudal's codes into one file for convenience in code lookup.
 * `coding_split.R` extracts individual's code from the merged file (for git commit)
-
+* `agreed_code_to_2d_csv.R` uses agreed codes to generate a two-dimensional CSV file. Codes are grouped into columns based on the longest common prefix. This file can be opened in Excel or Numbers to copy-and-paste into Miro board as sticky notes.
 
 ## TODO
 * create a script to help discussion → extract an excerpt at a given timestamp (quote and codes from each person) to be able to paste in the Google Doc.
