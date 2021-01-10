@@ -26,7 +26,7 @@ codes_df <-
   tibble(code = coder2_codes, coder = coder2_name),
   tibble(code = agreed_codes, coder = "Agreed")) %>% 
   arrange(code) %>% 
-  mutate(line_no = sprintf("%03d", 1:n())) 
+  mutate(line_no = sprintf("_%03d", 1:n())) 
 
 # create CSV and show output path
 codes_df %>% 
