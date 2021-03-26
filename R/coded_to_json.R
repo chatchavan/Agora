@@ -3,16 +3,20 @@ import::from(tidyxl, xlsx_cells)
 import::from(fs, dir_ls)
 import::from(jsonlite, toJSON)
 
+source("R/km_excel_url.R")
+
 # read Excel files and extract bold and RGB formats 
 xlsx_df <- 
   tibble(path = c(dir_ls("../../04 Transcripts/Chat/", recurse = TRUE, regexp = "/..\\.xlsx$"),
                   dir_ls("../../04 Transcripts/Nacho/", recurse = TRUE, regexp = "/..\\.xlsx$"))) %>% 
-    # head(3) %>%  # TODO: DEBUG
-    mutate(
+  mutate(
     coder = if_else(str_detect(path, "Chat"), "Chat", "Nacho"),
     cells = map(path, xlsx_cells)) %>% 
   unnest(cells) %>% 
   select(path, coder, participant_id = sheet, row, col, character_raw = character, character_formatted) %>% 
+  
+  # rewrite path to absolute
+  mutate(path = str_replace_all(path, fixed("../../"), "~/Seafile/Project Glass/")) %>% 
   
   # remove header row and empty cells
   filter(character_raw != "", row > 1) %>% 
@@ -25,7 +29,7 @@ xlsx_df <-
 
 text_only_df <- 
   xlsx_df %>% 
-  select(row_id, col, character_raw) %>%   
+  select(path, row_id, col, character_raw) %>%   
   
   # add excel column name to object name in JSON
   mutate(col = case_when(
@@ -39,7 +43,7 @@ text_only_df <-
     TRUE ~ NA_character_)) %>% 
   
   # pivot to one row = one timestamp =  one data item
-  pivot_wider(id_cols = c("row_id"),
+  pivot_wider(id_cols = c("path", "row_id"),
               names_from = "col", 
               values_from = "character_raw",
               values_fill = "") 
@@ -107,7 +111,12 @@ text_format_df <-
   
   # order by participant ID
   arrange(`Participant ID`, Coder, Time) %>% 
-  select(-row)
+  
+  # generate URL to trigger Excel
+  mutate(ExcelURL = km_excel_url(path, `Participant ID`, str_c("B", row, sep = ""))) %>% 
+  
+  # select relevant columns
+  select(-path, -row)
 
 
 text_format_df %>% 
