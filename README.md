@@ -75,9 +75,12 @@ The script `coded_to_json.R` transform the coded data into JSON format for visua
 
 -   The Excel URL needs Keyboard Maestro, plus the macro `lib/OpenTranscriptInExcel.kmmacros` installed to work.
 
+-   It assumes that the file is saved in a specific root path which was hard-cded in `R/coded_to_json.R`.
+
 ## TODO
 
 -   create a script to read transcript files and generate code book. It should also separate agreed codebooks from user-defined codebook.
+-   Anonymize `R/coded_to_json.R` (hard-coded paths)
 
 Low priority:
 
