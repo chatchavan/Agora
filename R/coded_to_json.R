@@ -102,7 +102,7 @@ formats_df <-
 
 #-------------------------------------------------------------------------------
 # merge the formats with the text data
-text_format_df <- 
+text_format_null_df <-
   text_only_df %>% 
   left_join(formats_df, by = "row_id") %>% 
 
@@ -119,6 +119,32 @@ text_format_df <-
   select(-path, -row)
 
 
+
+#-------------------------------------------------------------------------------
+# if formatted… columns are null, fill in one entry with the content
+
+if_null_fill_text <- function(col_to, col_from) {
+  retval <-  col_to
+  if(is_null(col_to) && str_length(col_from) > 0) {
+    retval <- tibble(text = col_from)
+  }
+  retval
+}
+
+text_format_df <- 
+  text_format_null_df %>% 
+  mutate(
+    `Formatted Transcript`        = map2(`Formatted Transcript`,        Transcript,          if_null_fill_text),
+    `Formatted Codes`             = map2(`Formatted Codes`,             Codes,               if_null_fill_text),
+    `Formatted Note (analytical)` = map2(`Formatted Note (analytical)`, `Note (analytical)`, if_null_fill_text)) %>% 
+  
+  
+  # remove unused columns
+  select(-Transcript, -Codes, -`Note (analytical)`)
+  
+
+#-------------------------------------------------------------------------------
+# save to JSON
 text_format_df %>% 
   toJSON(pretty = TRUE, null = "null") %>% 
   str_replace_all(fixed(": null"), fixed(": []")) %>% 
