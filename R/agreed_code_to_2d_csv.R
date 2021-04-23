@@ -6,9 +6,6 @@
 
 library(tidyverse)
 
-path_agreed <- "../../04 Transcripts/Chat/glass-codebook/codebook-agreed.txt"
-path_output <- "output/agreed_2d.csv"
-
 #-------------------------------------------------------------------------------
 # code from BioString
 lcPrefix <- function (x, ignore.case = FALSE) 
@@ -49,7 +46,8 @@ codes_to_2d_df <- function(codes) {
     mutate(lcp_length = str_length(lcp)) 
   
   # determine cut-off of the common prefix length
-  min_lcp_length <- dominate_mode(lcp_df$lcp_length) / 2
+  # min_lcp_length <- dominate_mode(lcp_df$lcp_length) * 2
+  min_lcp_length <- 7 # TODO: hard-coded
   
   min_code_per_col <- 3
   
@@ -92,9 +90,13 @@ open_numbers <- function(file_path) {
 }
 
 #===============================================================================
-# entry point
-read_lines(path_agreed) %>% 
-  codes_to_2d_df() %>% 
-  write_csv(path_output)
+# entry point (unused; subsumed by "R/agreed_codes_for_miro.R")
 
-open_numbers(path_output)
+# path_agreed <- "../../04 Transcripts/Chat/glass-codebook/codebook-agreed.txt"
+# path_output <- "output/agreed_2d.csv"
+# read_lines(path_agreed) %>% 
+#   codes_to_2d_df() %>% 
+#   write_csv(path_output)
+# 
+# open_numbers(path_output)
+
