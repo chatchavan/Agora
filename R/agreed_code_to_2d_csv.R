@@ -34,52 +34,67 @@ dominate_mode <- function(x) {
 }
 
 #-------------------------------------------------------------------------------
-
-# load files
-agreed_codes <- read_lines(path_agreed)
-agreed_df <- tibble(code = agreed_codes)
-
-# determine the length of longest common prefix
-lcp_df <- 
-  agreed_df %>% 
-  mutate(code_lag = lag(code, default = "")) %>% 
-  rowwise() %>% 
-  mutate(lcp = lcPrefix(c(code, code_lag))) %>% 
-  ungroup() %>% 
-  mutate(lcp_length = str_length(lcp)) 
-
-# determine cut-off of the common prefix length
-min_lcp_length <- dominate_mode(lcp_df$lcp_length) / 2
-
-min_code_per_col <- 3
-
-# group the string based on the threshold
-groups_df <-
-  lcp_df %>% 
-  select(code, lcp_length) %>% 
+# convert codes to 2D tibble
+codes_to_2d_df <- function(codes) {
+  # load files
+  agreed_df <- tibble(code = codes)
   
-  # determine groups (j) based on prefix
-  mutate(is_new_group = if_else(lcp_length < min_lcp_length, 1, 0)) %>% 
-  mutate(j = cumsum(is_new_group)) %>% 
+  # determine the length of longest common prefix
+  lcp_df <- 
+    agreed_df %>% 
+    mutate(code_lag = lag(code, default = "")) %>% 
+    rowwise() %>% 
+    mutate(lcp = lcPrefix(c(code, code_lag))) %>% 
+    ungroup() %>% 
+    mutate(lcp_length = str_length(lcp)) 
   
-  # for group with a small number of codes, collapse them into one group
-  group_by(j) %>% 
-  mutate(group_size = n()) %>% 
-  ungroup() %>% 
-  mutate(j = if_else(group_size < min_code_per_col, max(j), j)) %>% 
-  arrange(j, code) %>% 
+  # determine cut-off of the common prefix length
+  min_lcp_length <- dominate_mode(lcp_df$lcp_length) / 2
   
-  # generate row number (i) by group
-  group_by(j) %>% 
-  mutate(i = row_number(code)) %>% 
-  ungroup() %>% 
+  min_code_per_col <- 3
   
-  select(code, i, j)
+  # group the string based on the threshold
+  groups_df <-
+    lcp_df %>% 
+    select(code, lcp_length) %>% 
+    
+    # determine groups (j) based on prefix
+    mutate(is_new_group = if_else(lcp_length < min_lcp_length, 1, 0)) %>% 
+    mutate(j = cumsum(is_new_group)) %>% 
+    
+    # for group with a small number of codes, collapse them into one group
+    group_by(j) %>% 
+    mutate(group_size = n()) %>% 
+    ungroup() %>% 
+    mutate(j = if_else(group_size < min_code_per_col, max(j), j)) %>% 
+    arrange(j, code) %>% 
+    
+    # generate row number (i) by group
+    group_by(j) %>% 
+    mutate(i = row_number(code)) %>% 
+    ungroup() %>% 
+    
+    select(code, i, j)
+  
+  # transform into 2D tibble
+  df_2d <- groups_df %>% 
+    pivot_wider(names_from = j, values_from = code, values_fill = "")
+  
+  # return
+  df_2d
+}
 
-# transform into 2D and save CSV
-groups_df %>% 
-  pivot_wider(names_from = j, values_from = code, values_fill = "") %>% 
+
+#-------------------------------------------------------------------------------
+# open a file in Apple Numbers
+open_numbers <- function(file_path) {
+  system2("open", c("-a", "Numbers", paste0("\"", normalizePath(file_path), "\"")))
+}
+
+#===============================================================================
+# entry point
+read_lines(path_agreed) %>% 
+  codes_to_2d_df() %>% 
   write_csv(path_output)
 
-
-system2("open", c("-a", "Numbers", paste0("\"", normalizePath(path_output), "\"")))
+open_numbers(path_output)
